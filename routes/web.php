@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/delete-row','AjaxController@index');
+Route::get('/products','AjaxController@index');
 
 
 

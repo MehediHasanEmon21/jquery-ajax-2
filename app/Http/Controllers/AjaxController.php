@@ -7,21 +7,27 @@ use App\AjaxCrud;
 use App\DynamicField;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 class AjaxController extends Controller
 {
     public function index(){
-        $countries = DB::table('tbl_employee')->get();
-        return view('index',compact('countries'));
+        $products = DB::table('tbl_product')->get();
+        return view('index',compact('products'));
 
     }
 
-    public function delete(Request $request){
+    public function fetchProduct(Request $request){
 
-        $ids = $request->id;
-        foreach ($ids as $id) {
-            DB::table('tbl_employee')->where('id',$id)->delete();
-        }
+        $price = $request->price;
+        
+        $path = URL::to('/images');
+        $products = DB::table('tbl_product')->where('product_price','<=',$price)->orderBy('product_id','DESC')->get();
+        return response()->json([
+            'products' => $products,
+            'price' => $price,
+            'path' => $path,
+        ]);
        
 
     }
