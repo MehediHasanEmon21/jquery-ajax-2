@@ -1,39 +1,83 @@
 
- <!DOCTYPE html>  
- <html>  
-      <head>  
-           <title>Webslesson Tutorial | How to load Product on price change using Ajax Jquery with PHP Mysql</title>  
-           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
-           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-      </head>  
-      <body>  
-           <br /><br />  
-           <div class="container" style="width:800px;">  
-                <br />  
-                <h3 align="center">Load Product on price change using Ajax Jquery with PHP Mysql</h3>  
-                <br />  
-                <div align="center">  
-                     <input type="range" min="10000" max="55000" step="1000" value="10000" id="min_price" name="min_price" />  
-                     <span id="price_range"></span>  
-                </div>  
-                <br /><br /><br />  
-                <div id="product_loading">  
-                @foreach($products as $product)  
-                <div class="col-md-4">  
-                     <div style="border:1px solid #ccc; padding:12px; margin-bottom:16px; height:375px;" align="center">  
-                          <img src="{{URL::to('/images/'.$product->product_image)}}" class="img-responsive" />  
-                          <h3>{{$product->product_name}}</h3>  
-                          <h4>Price - {{$product->product_price}}</h4>  
-                     </div>  
-                </div>  
-                 @endforeach
-                </div>  
-           </div> 
-      <script src="{{ asset('ajax/custom.js') }}" ></script>
-      </body>  
- </html>  
- 
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Webslesson Tutorial | PHP AJAX Jquery - Load Dynamic Data in Bootstrap Tooltip</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+ </head>
+ <body>
+  <br /><br />
+  <div class="container" style="width:600px;">
+   <h2 align="center">PHP AJAX Jquery - Load Dynamic Data in Bootstrap Tooltip</h2>
+   <h3 align="center">Employee Data</h3>   
+   <br /><br />
+   
+   <div class="table-responsive">
+    <table class="table table-bordered">
+     <tr>
+      <th width="20%">ID</th>
+      <th width="80%">Name</th>
+     </tr>
+
+    @foreach($employees as $emp)
+     <tr>
+      <td>{{$emp->id}}</td>
+      <td><label><a href="#" class="hover" id="{{$emp->id}}">{{$emp->name}}</a></label></td>
+     </tr>
+     @endforeach
+    </table>
+   </div>
+   <input type="" value="{{ URL::to('images') }}" id="path" name="">
+  </div>
+ </body>
+</html>
+
+<script>
+  
+  $(function(){
+        var path = $('#path').val()
+        $('.hover').tooltip({
+          title: fetchData,
+          html: true,
+          placement: 'right'
+        })
+
+        function fetchData(){
+
+            var fetch_data = '';
+            var element = $(this)
+            var id = element.attr('id');
+            $.ajax({
+              url: '/api/fetch',
+              data: {id:id},
+              async: false,
+              method: 'POST',
+              success: function(data){
+
+                  fetch_data +=`
+                  <p><img src="${path}/${data.image}" class="img-responsive img-thumbnail" /></p>
+                  <p><label>Name :${data.name}</label></p>
+                  <p><label>Address : </label><br />${data.address}</p>
+                  <p><label>Gender : </label>${data.gender}</p>
+                  <p><label>Designation : </label>${data.designation}</p>
+                  <p><label>Age : </label>${data.age} Years</p>
+                  `
+
+              }
+            })
+
+            return fetch_data;
+
+        }
+
+
+  })
+
+</script>
+
 
 
 

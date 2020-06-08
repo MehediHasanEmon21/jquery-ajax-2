@@ -12,22 +12,15 @@ use Illuminate\Support\Facades\Validator;
 class AjaxController extends Controller
 {
     public function index(){
-        $products = DB::table('tbl_product')->get();
-        return view('index',compact('products'));
+        $employees = DB::table('tbl_employee')->get();
+        return view('index',compact('employees'));
 
     }
 
-    public function fetchProduct(Request $request){
+    public function fetch(Request $request){
 
-        $price = $request->price;
-        
-        $path = URL::to('/images');
-        $products = DB::table('tbl_product')->where('product_price','<=',$price)->orderBy('product_id','DESC')->get();
-        return response()->json([
-            'products' => $products,
-            'price' => $price,
-            'path' => $path,
-        ]);
+    $employee = DB::table('tbl_employee')->where('id',$request->id)->first();
+    return response()->json($employee);
        
 
     }

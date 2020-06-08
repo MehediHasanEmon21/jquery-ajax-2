@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/products','AjaxController@index');
+Route::get('/tooltip','AjaxController@index');
 
 
 
