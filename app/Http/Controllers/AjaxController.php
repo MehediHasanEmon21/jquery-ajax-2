@@ -17,9 +17,16 @@ class AjaxController extends Controller
 
     }
 
-    public function fetch(Request $request){
+    public function update(Request $request){
 
-    $employee = DB::table('tbl_employee')->where('id',$request->id)->first();
+       DB::table('employee')
+                    ->where('id',$request->employee_id)
+                    ->update([
+                        'name' => $request->name,
+                        'gender' => $request->gender,
+                        'designation' => $request->designation,
+                    ]);
+    $employee = DB::table('employee')->where('id',1)->first();
     return response()->json($employee);
        
 
