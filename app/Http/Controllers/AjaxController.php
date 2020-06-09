@@ -12,22 +12,14 @@ use Illuminate\Support\Facades\Validator;
 class AjaxController extends Controller
 {
     public function index(){
-        $employees = DB::table('tbl_employee')->get();
-        return view('index',compact('employees'));
+        return view('index');
 
     }
 
-    public function update(Request $request){
+    public function fetch(Request $request){
 
-       DB::table('employee')
-                    ->where('id',$request->employee_id)
-                    ->update([
-                        'name' => $request->name,
-                        'gender' => $request->gender,
-                        'designation' => $request->designation,
-                    ]);
-    $employee = DB::table('employee')->where('id',1)->first();
-    return response()->json($employee);
+    $employees = DB::table('tbl_employee')->get();
+    return response()->json($employees);
        
 
     }
