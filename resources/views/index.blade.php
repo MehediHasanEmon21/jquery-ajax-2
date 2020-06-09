@@ -1,72 +1,73 @@
-  
 <!DOCTYPE html>
 <html>
  <head>
-  <title>Webslesson Tutorial | Search HTML Table Data by using JQuery</title>
+  <title>Webslesson Tutorial | How to Use Bootstrap Select Plugin with PHP JQuery</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style>
-  #result {
-   position: absolute;
-   width: 100%;
-   max-width:870px;
-   cursor: pointer;
-   overflow-y: auto;
-   max-height: 400px;
-   box-sizing: border-box;
-   z-index: 1001;
-  }
-  .link-class:hover{
-   background-color:#f1f1f1;
-  }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+  
  </head>
  <body>
   <br /><br />
-  <div class="container" style="width:900px;">
-   <h2 align="center">JSON Live Data Search using Ajax JQuery</h2>
-   <h3 align="center">Employee Data</h3>   
-   <br /><br />
-   <div align="center">
-    <input type="text" name="search" id="search" placeholder="Search Employee Details" class="form-control" />
-    <input type="hidden" name="id" id="id">
-   </div>
-   <ul class="list-group" id="result"></ul>
+  <div class="container">
    <br />
+   <h2 align="center">How to Use Bootstrap Select Plugin with PHP JQuery</h2>
+   <br />
+   <div class="col-md-4" style="margin-left:200px;">
+    <form method="post" id="multiple_select_form">
+     <select name="framework" id="framework" class="form-control selectpicker" data-live-search="true" multiple="">
+      <option value="Laravel">Laravel</option>
+      <option value="Symfony">Symfony</option>
+      <option value="Codeigniter">Codeigniter</option>
+      <option value="CakePHP">CakePHP</option>
+      <option value="Zend">Zend</option>
+      <option value="Yii">Yii</option>
+      <option value="Slim">Slim</option>
+     </select>
+     <br /><br />
+     <input type="hidden" name="hidden_framework" id="hidden_framework" />
+     <input type="submit" name="submit" class="btn btn-info" value="Submit" />
+    </form>
+    <br />
+    
+   </div>
   </div>
  </body>
 </html>
 
 <script>
 $(document).ready(function(){
- $.ajaxSetup({ cache: false });
- $('#search').keyup(function(){
-  $('#result').html('');
-  $('#state').val('');
-  var searchField = $('#search').val();
-  var expression = new RegExp(searchField, "i");
-  $.getJSON('/api/fetch', function(data) {
-    if (searchField != '') {
+ $('.selectpicker').selectpicker();
 
-        $.each(data, function(key, value){
-      if (value.name.search(expression) != -1 || value.designation.search(expression) != -1)
-      {
-       $('#result').append('<li class="list-group-item link-class"><img src="/images/'+value.image+'" height="40" width="40" class="img-thumbnail" /> '+value.name+' | <span class="text-muted">'+value.designation+'</span><input id="search_id" type="hidden" value="'+value.id+'" ></li>');
-      }
-     });
-
-    }
-   
-  });
+ $('#framework').change(function(){
+  $('#hidden_framework').val($('#framework').val());
  });
- 
- $('#result').on('click', 'li', function() {
-  var id = $(this).find('#search_id').val()
-  var click_text = $(this).text().split('|');
-  $('#search').val($.trim(click_text[0]));
-  $('#id').val(id)
-  $("#result").html('');
+
+ $('#multiple_select_form').on('submit', function(event){
+  event.preventDefault();
+  if($('#framework').val() != '')
+  {
+   var form_data = $(this).serialize();
+   $.ajax({
+    url:"insert.php",
+    method:"POST",
+    data:form_data,
+    success:function(data)
+    {
+     //console.log(data);
+     $('#hidden_framework').val('');
+     $('.selectpicker').selectpicker('val', '');
+     alert(data);
+    }
+   })
+  }
+  else
+  {
+   alert("Please select framework");
+   return false;
+  }
  });
 });
 </script>
