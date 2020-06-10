@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/fetch', 'AjaxController@fetch');
+Route::post('/fetch', 'AjaxController@fetch');
 
 
 
