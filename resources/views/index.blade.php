@@ -1,109 +1,69 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title>Webslesson Tutorial | Facebook Style Popup Notification using PHP Ajax Bootstrap</title>
+  <title>Webslesson Tutorial | Bootstrap Multi Select Dropdown with Checkboxes using Jquery in PHP</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style>
-  #alert_popover
-  {
-   display:block;
-   position:absolute;
-   bottom:50px;
-   left:50px;
-  }
-  .wrapper {
-    display: table-cell;
-    vertical-align: bottom;
-    height: auto;
-    width:200px;
-  }
-  .alert_default
-  {
-   color: #333333;
-   background-color: #f2f2f2;
-   border-color: #cccccc;
-  }
-  </style>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" />
  </head>
  <body>
   <br /><br />
-  <div class="container">
-   <br />
-   <h2 align="center">Facebook Style Popup Notification using PHP Ajax Bootstrap</h2>
-   <br />
-   
-   <br />
-   <form method="post" id="comment_form">
+  <div class="container" style="width:600px;">
+   <h2 align="center">Bootstrap Multi Select Dropdown with Checkboxes using Jquery in PHP</h2>
+   <br /><br />
+   <form method="post" id="framework_form">
     <div class="form-group">
-     <label>Enter Subject</label>
-     <input type="text" name="subject" id="subject" class="form-control" />
+     <label>Select which Framework you have knowledge</label>
+     <select id="framework" name="framework[]" multiple class="form-control" >
+      <option value="Codeigniter">Codeigniter</option>
+      <option value="CakePHP">CakePHP</option>
+      <option value="Laravel">Laravel</option>
+      <option value="YII">YII</option>
+      <option value="Zend">Zend</option>
+      <option value="Symfony">Symfony</option>
+      <option value="Phalcon">Phalcon</option>
+      <option value="Slim">Slim</option>
+     </select>
     </div>
     <div class="form-group">
-     <label>Enter Comment</label>
-     <textarea name="comment" id="comment" class="form-control" rows="5"></textarea>
-    </div>
-    <div class="form-group">
-     <input type="submit" name="post" id="post" class="btn btn-info" value="Post" />
+     <input type="submit" class="btn btn-info" name="submit" value="Submit" />
     </div>
    </form>
-
-   <div id="alert_popover">
-    <div class="wrapper">
-     <div class="content">
-
-     </div>
-    </div>
-   </div>
+   <br />
   </div>
  </body>
 </html>
 
 <script>
-  
-  $(function(){
-
-
-    setInterval(() => {
-      load_unread_comment()
-    },5000)
-
-
-      function load_unread_comment(){
-
-          $.ajax({
-            url: '/api/load/comment',
-            success: function(data){
-              $('.content').html(data)
-            }
-          })
-
-      }
-
-       $('#comment_form').on('submit', function(event){
-          event.preventDefault();
-          if($('#subject').val() != '' && $('#comment').val() != '')
-          {
-           var form_data = $(this).serialize();
-           $.ajax({
-            url:"api/add/comment",
-            method:"POST",
-            data:form_data,
-            success:function(data)
-            {
-             $('#comment_form')[0].reset();
-            }
-           })
-          }
-          else
-          {
-           alert("Both Fields are Required");
-          }
-         });
-
-
-  })
-
+$(document).ready(function(){
+ $('#framework').multiselect({
+  nonSelectedText: 'Select Framework',
+  enableFiltering: true,
+  enableCaseInsensitiveFiltering: true,
+  buttonWidth:'400px'
+ });
+ 
+ // $('#framework_form').on('submit', function(event){
+ //  event.preventDefault();
+ //  var form_data = $(this).serialize();
+ //  $.ajax({
+ //   url:"insert.php",
+ //   method:"POST",
+ //   data:form_data,
+ //   success:function(data)
+ //   {
+ //    $('#framework option:selected').each(function(){
+ //     $(this).prop('selected', false);
+ //    });
+ //    $('#framework').multiselect('refresh');
+ //    alert(data);
+ //   }
+ //  });
+ // });
+ 
+ 
+});
 </script>
-

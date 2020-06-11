@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/notification','AjaxController@index');
+Route::get('/multiselect','AjaxController@index');
 
 
 
