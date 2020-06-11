@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/modal','AjaxController@index');
+Route::get('/notification','AjaxController@index');
 
 
 
