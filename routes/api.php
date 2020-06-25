@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/add/comment', 'AjaxController@add');
+Route::post('/fetch/post', 'AjaxController@fetch');
 Route::get('/load/comment', 'AjaxController@load');
 
 

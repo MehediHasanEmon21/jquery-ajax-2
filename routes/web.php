@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/multiselect','AjaxController@index');
+Route::get('/load','AjaxController@index');
 
 
 

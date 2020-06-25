@@ -13,41 +13,32 @@ class AjaxController extends Controller
 {
     public function index(){
         
-        return view('index');
+        $products = DB::table('products')->limit(4)->orderBy('id','DESC')->get();
+        return view('index',compact('products'));
 
     }
 
-    public function add(Request $request){
-
-        DB::table('comments')
-              ->insert([
-                'comment_subject' =>$request->subject,
-                'comment_text' => $request->comment
-                  
-                ]);
-
-    }
-
-    public function load(){
-
-        $comment = DB::table('comments')->where('comment_status',0)->orderBy('comment_id','DESC')->first();
-        $output='';
-        if (isset($comment)) {
-            $output .= '
-             <div class="alert alert_default">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <p><strong>'.$comment->comment_subject.'</strong>
-               <small><em>'.$comment->comment_text.'</em></small>
-              </p>
-             </div>';
-          DB::table('comments')->where('comment_id',$comment->comment_id)->update(['comment_status' => 1]);
-        }
- 
+    public function fetch(Request $request){
 
         
-        echo $output;
+
+        $products = DB::table('products')->where('id','<',$request->last_id)->limit(4)->orderBy('id','DESC')->get();
+
+
+            foreach ($products as $key => $product) {
+              $id = $product->id;
+            }
+     
+        
+
+        $view = view("fetch",compact('products'))->render();
+        return response()->json(['html'=>$view,'id' => $id, 'count' => $products->count()]);
+        // return view('fetch',compact('products'));
+              
 
     }
+
+
 
 
   
