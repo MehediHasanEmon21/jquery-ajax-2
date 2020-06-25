@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/load','AjaxController@index');
+Route::get('/search','AjaxController@index');
 
 
 
